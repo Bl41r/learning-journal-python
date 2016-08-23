@@ -90,3 +90,5 @@ ENV/
 
 *.pyc
 *.DS_Store
+
+website.egg-info/
