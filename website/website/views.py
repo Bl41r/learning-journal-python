@@ -1,3 +1,4 @@
+from pyramid.view import view_config
 from pyramid.response import Response
 import os
 
@@ -14,6 +15,7 @@ def detail(request):
     return Response(imported_text)
 
 
+@view_config(route_name='edit')
 def edit(request):
     imported_text = open(os.path.join(HERE, 'templates/edit.html')).read()
     return Response(imported_text)
