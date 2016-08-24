@@ -1,4 +1,5 @@
 {% extends "my_template.jinja2" %}
+{% block content %}
 <h3>Entries</h3>
 <a href="/journal/new-entry">Create New Entry</a>
 <table id="entries_table">
@@ -9,9 +10,9 @@
     </tr>
     {% for entry in entries %}
     <tr>
-        <td>{{ creation_date }}</td>
-        <td><a href="/journal/{id:\d+}">{{ title }}</a></td>
-        <td><a href="/journal/{id:\d+}/edit-entry">edit</a></td>
+        <td>{{ entry.creation_date }}</td>
+        <td><a href="/journal/{{ entry.id }}">{{ entry.title }}</a></td>
+        <td><a href="/journal/{{ entry.id }}/edit-entry">edit</a></td>
     </tr>
     {% endfor %}
 </table>

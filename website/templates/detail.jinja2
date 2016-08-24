@@ -1,6 +1,7 @@
 {% extends "my_template.jinja2" %}
+{% block content %}
 <h1>View Entry Details</h1>
-<h3>{{ title }} - {{ creation_date }}</h3>
+<h3>{{ entry.title }} - {{ entry.creation_date }}</h3>
 {{ body }}
 <a href="../">Back to Home</a>
 {% endblock %}

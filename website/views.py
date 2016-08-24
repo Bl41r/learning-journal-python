@@ -36,24 +36,35 @@ ENTRIES_DATA = [
     },
 ]
 
-# sort the data based on the id
+# sort the data based on the id maybe needed here
+
+
+def grab_entry_by_id(id):
+    for entry in ENTRIES_DATA:
+        if entry['id'] == id:
+            return entry
+    return 404
 
 
 @view_config(route_name='home', renderer='templates/index.jinja2')
 def home_page(request):
-    return ENTRIES_DATA
+    return {"entries": ENTRIES_DATA}
 
 
 @view_config(route_name='detail', renderer='templates/detail.jinja2')
 def detail(request):
-    return ENTRIES_DATA
+    data = grab_entry_by_id(request.matchdict['id'])
+    print(data)
+    if data != 404:
+        return {"entry": data}
+    # handle error somehow here
 
 
 @view_config(route_name='edit', renderer='templates/edit.jinja2')
 def edit(request):
-    return ENTRIES_DATA
+    return {"entries": ENTRIES_DATA}
 
 
 @view_config(route_name='new', renderer='templates/new.jinja2')
 def new(request):
-    return ENTRIES_DATA
+    return {"entries": ENTRIES_DATA}
