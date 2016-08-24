@@ -8,7 +8,7 @@ ENTRIES_DATA = [
         'title': 'Day12',
         'id': '12',
         'creation_date': 'August 23, 2016',
-        'body': '<p>Today, we...</p>'
+        'body': '<p>Today, we learned about templating with Jinja, and about the binary tree data type.  I spent most of the time revising old data structures, since it is not a good idea to coninue building upon something that is not perfect.  I also got my journal site deployed with the templates working.  Lastly, we formed project groups, and I will be working on my idea for a market analysis web application.</p>'
     },
     {
         'title': 'Day11',
