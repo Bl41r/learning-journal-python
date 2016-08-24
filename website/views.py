@@ -1,33 +1,59 @@
 from pyramid.view import view_config
-from pyramid.response import Response
 import os
 
 HERE = os.path.dirname(__file__)
 
+ENTRIES_DATA = [
+    {
+        'title': 'Day12',
+        'id': '12',
+        'creation_date': 'August 23, 2016',
+        'body': '<p>Today, we...</p>'
+    },
+    {
+        'title': 'Day11',
+        'id': '11',
+        'creation_date': 'August 22, 2016',
+        'body': '<p>Today, we code reviewed our server-from-scratch code.  We then learned about Pyramid and worked on this very site.  We also built the deque data structure, and worked on more testing and revising for previous structures.</p>'
+    },
+    {
+        'title': 'Day10',
+        'id': '10',
+        'creation_date': 'August 21, 2016',
+        'body': '<p>asdf</p>'
+    },
+    {
+        'title': 'Day9',
+        'id': '9',
+        'creation_date': 'August 20, 2016',
+        'body': '<p>asdf</p>'
+    },
+    {
+        'title': 'Day8',
+        'id': '8',
+        'creation_date': 'August 19, 2016',
+        'body': '<p>asdf</p>'
+    },
+]
 
+# sort the data based on the id
+
+
+@view_config(route_name='home', renderer='templates/index.jinja2')
 def home_page(request):
-    imported_text = open(os.path.join(HERE, 'templates/index.html')).read()
-    return Response(imported_text)
+    return ENTRIES_DATA
 
 
+@view_config(route_name='detail', renderer='templates/detail.jinja2')
 def detail(request):
-    imported_text = open(os.path.join(HERE, 'templates/detail.html')).read()
-    return Response(imported_text)
+    return ENTRIES_DATA
 
 
-@view_config(route_name='edit')
+@view_config(route_name='edit', renderer='templates/edit.jinja2')
 def edit(request):
-    imported_text = open(os.path.join(HERE, 'templates/edit.html')).read()
-    return Response(imported_text)
+    return ENTRIES_DATA
 
 
+@view_config(route_name='new', renderer='templates/new.jinja2')
 def new(request):
-    imported_text = open(os.path.join(HERE, 'templates/new.html')).read()
-    return Response(imported_text)
-
-
-def includeme(config):
-    config.add_view(home_page, route_name='home')
-    config.add_view(detail, route_name='detail')
-    config.add_view(edit, route_name='edit')
-    config.add_view(new, route_name='new')
+    return ENTRIES_DATA
