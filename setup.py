@@ -26,7 +26,7 @@ tests_require = [
 
 setup(name='website',
       version='0.0',
-      description='website',
+      description='Learning journal for python 401',
       long_description=README + '\n\n' + CHANGES,
       classifiers=[
           "Programming Language :: Python",
