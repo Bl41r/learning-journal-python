@@ -62,7 +62,10 @@ def detail(request):
 
 @view_config(route_name='edit', renderer='templates/edit.jinja2')
 def edit(request):
-    return {"entries": ENTRIES_DATA}
+    data = grab_entry_by_id(request.matchdict['id'])
+    print(data)
+    if data != 404:
+        return {"entry": data}
 
 
 @view_config(route_name='new', renderer='templates/new.jinja2')
