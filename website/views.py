@@ -54,7 +54,7 @@ def home_page(request):
 @view_config(route_name='detail', renderer='templates/detail.jinja2')
 def detail(request):
     data = grab_entry_by_id(request.matchdict['id'])
-    print(data)
+    print(data)     # debugging
     if data != 404:
         return {"entry": data}
     # handle error somehow here
@@ -63,11 +63,11 @@ def detail(request):
 @view_config(route_name='edit', renderer='templates/edit.jinja2')
 def edit(request):
     data = grab_entry_by_id(request.matchdict['id'])
-    print(data)
+    print(data)     # debugging
     if data != 404:
         return {"entry": data}
 
 
 @view_config(route_name='new', renderer='templates/new.jinja2')
 def new(request):
-    return {"entries": ENTRIES_DATA}
+    return {}
