@@ -1,9 +1,7 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <link type="text/css" rel="stylesheet" href="style.css"/>
-    <title>Template</title>
-    </head>
-    <body>
-    </body>
-</html>
+{% extends "my_template.jinja2" %}
+{% block content %}
+<h1>View Entry Details</h1>
+<h3>{{ entry.title }} - {{ entry.creation_date }}</h3>
+{{ entry.body }}
+<a href="../">Back to Home</a>
+{% endblock %}
