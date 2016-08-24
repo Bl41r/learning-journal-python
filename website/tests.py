@@ -1,29 +1,23 @@
-import unittest
-
+import pytest
 from pyramid import testing
 
 
-class ViewTests(unittest.TestCase):
-    def setUp(self):
-        self.config = testing.setUp()
+def test_detail_view_has_title():
+    from .views import test_detail_view_has_title
 
-    def tearDown(self):
-        testing.tearDown()
-
-    def test_my_view(self):
-        from .views import my_view
-        request = testing.DummyRequest()
-        info = my_view(request)
-        self.assertEqual(info['project'], 'website')
+    request = testing.DummyRequest()
+    info = detail(request)
+    assert "title" in info.keys()
 
 
-class FunctionalTests(unittest.TestCase):
-    def setUp(self):
-        from website import main
-        app = main({})
-        from webtest import TestApp
-        self.testapp = TestApp(app)
+@pytest.fixture()
+def testapp():
+    from website import main
+    app = main({})
+    from webtest import testapp
+    return TestApp(app)
 
-    def test_root(self):
-        res = self.testapp.get('/', status=200)
-        self.assertTrue(b'Pyramid' in res.body)
+
+def test_layout_route(testapp):
+    response = testapp.get('/', status=200)
+    assert b'Footer Line Here' in response.body
