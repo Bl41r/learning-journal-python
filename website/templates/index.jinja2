@@ -1,0 +1,18 @@
+{% extends "my_template.jinja2" %}
+<h3>Entries</h3>
+<a href="/journal/new-entry">Create New Entry</a>
+<table id="entries_table">
+    <tr>
+        <th>Date</th>
+        <th>Title</th>
+        <th>Edit</th>
+    </tr>
+    {% for entry in entries %}
+    <tr>
+        <td>{{ creation_date }}</td>
+        <td><a href="/journal/{id:\d+}">{{ title }}</a></td>
+        <td><a href="/journal/{id:\d+}/edit-entry">edit</a></td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}
