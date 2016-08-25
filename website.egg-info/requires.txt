@@ -4,6 +4,7 @@ pyramid_ipython
 pyramid_jinja2
 pyramid_debugtoolbar
 waitress
+pytest
 
 [testing]
 WebTest >= 1.3.1
