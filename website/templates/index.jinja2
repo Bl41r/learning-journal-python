@@ -2,7 +2,7 @@
 {% block content %}
 <h3>Entries</h3>
 <a href="/journal/new-entry">Create New Entry</a>
-{# <table id="entries_table">
+<table id="entries_table">
     <tr>
         <th>Date</th>
         <th>Title</th>
@@ -15,6 +15,6 @@
         <td><a href="/journal/{{ entry.id }}/edit-entry">edit</a></td>
     </tr>
     {% endfor %}
-</table> #}
+</table>
 {{ one }}
 {% endblock %}

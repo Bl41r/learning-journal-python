@@ -84,7 +84,7 @@ def new(request):
     """Return empty dict for new entry."""
     return {}
 
-
+#step 3 stuff
 #@view_config(route_name='home', renderer='../templates/mytemplate.jinja2')
 #def my_view(request):
 #    print(request)  # debug
