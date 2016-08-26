@@ -1,12 +1,12 @@
 {% extends "my_template.jinja2" %}
 {% block content %}
 <h1>Edit and Existing Entry</h1>
-<form>
+<form action="{{ request.route_url('edit') }}">
     Title:<br>
     <input type="text" name="{{ entry.title }}" value="{{ entry.title }}"><br>
     <textarea rows="14" cols="50" default="{{ entry.body }}">
     </textarea>
-    <input type="submit" value="Submit" disabled>
+    <input type="submit" value="Submit">
 </form>
 <a href="../">Back to Home</a>
 {% endblock %}

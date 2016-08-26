@@ -1,10 +1,10 @@
 Metadata-Version: 1.1
 Name: website
 Version: 0.0
-Summary: Learning journal for python 401
+Summary: website
 Home-page: UNKNOWN
-Author: David Smith
-Author-email: dbsmith.dbs83@gmail.com
+Author: UNKNOWN
+Author-email: UNKNOWN
 License: UNKNOWN
 Description: website README
         ==================
@@ -25,7 +25,7 @@ Description: website README
         
         -  Initial version
         
-Keywords: web pyramid pylons
+Keywords: web wsgi bfg pylons pyramid
 Platform: UNKNOWN
 Classifier: Programming Language :: Python
 Classifier: Framework :: Pyramid

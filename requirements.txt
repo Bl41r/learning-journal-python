@@ -10,7 +10,6 @@ MarkupSafe==0.23
 PasteDeploy==1.5.2
 pexpect==4.2.1
 pickleshare==0.7.4
-pkg-resources==0.0.0
 pluggy==0.3.1
 prompt-toolkit==1.0.7
 ptyprocess==0.5.1
@@ -35,7 +34,6 @@ virtualenv==15.0.3
 waitress==0.9.0
 wcwidth==0.1.7
 WebOb==1.6.1
--e git+https://github.com/Bl41r/learning-journal-python.git@aed399485303ed3719e9999fda2c69ff10a0cb5f#egg=website
 WebTest==2.0.23
 zope.deprecation==4.1.2
 zope.interface==4.2.0

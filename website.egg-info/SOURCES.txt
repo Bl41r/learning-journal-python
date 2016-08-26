@@ -7,8 +7,6 @@ pytest.ini
 requirements.txt
 website/__init__.py
 website/routes.py
-website/tests.py
-website/views.py
 website.egg-info/PKG-INFO
 website.egg-info/SOURCES.txt
 website.egg-info/dependency_links.txt
