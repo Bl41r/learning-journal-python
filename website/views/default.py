@@ -3,6 +3,7 @@ from pyramid.view import view_config
 from sqlalchemy.exc import DBAPIError
 from ..models import MyModel
 import os
+from pyramid.httpexceptions import HTTPFound
 
 HERE = os.path.dirname(__file__)
 
@@ -53,18 +54,27 @@ def edit(request):
     """Send individual entry to be edited."""
     query = request.dbsession.query(MyModel)
     data = query.filter_by(id=request.matchdict['id']).one()
+    data2 = {'id': data.id, 'body': data.body, 'creation_date': data.creation_date, 'title': data.title}
     updated = False
+    #   using data2 prevents data from being written to the db.  Use data
+    #   to like data.body = req.... to change database (autocommit is on)
     if request.method == 'POST':
         updated = True
-        print(data)
-        data.body = request.POST['body']
-    return {'entry': data, 'updated': updated}
+        data2['body'] = request.POST['body']
+    return {'entry': data2, 'updated': updated}
 
 
 @view_config(route_name='new', renderer='../templates/new.jinja2')
 def new(request):
     """Return empty dict for new entry."""
-    return {}
+    goofed = {'goofed': 0}
+    if request.method == 'POST':
+        new_model = MyModel(title=request.POST['title'], body=request.POST['body'], creation_date=request.POST['creation_date'])
+        if new_model.title == '' or new_model.body == '':
+            goofed['goofed'] = 1
+            return {'entry': goofed}   # http exception here
+        request.dbsession.add(new_model)
+    return {'entry': goofed}
 
 
 @view_config(route_name='home', renderer='../templates/index.jinja2')
