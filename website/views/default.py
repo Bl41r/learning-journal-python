@@ -1,11 +1,7 @@
 from pyramid.response import Response
 from pyramid.view import view_config
-
 from sqlalchemy.exc import DBAPIError
-
 from ..models import MyModel
-
-
 import os
 
 HERE = os.path.dirname(__file__)
@@ -43,40 +39,26 @@ ENTRIES_DATA = [
     },
 ]
 
-# sort the data based on the id maybe needed here
-
-
-def grab_entry_by_id(id):
-    """Grab entry based on id."""
-    for entry in ENTRIES_DATA:
-        if entry['id'] == id:
-            return entry
-    return 404
-
-
-@view_config(route_name='home', renderer='../templates/index.jinja2')
-def home_page(request):
-    """Return all entries for the home route."""
-    return {"entries": ENTRIES_DATA}
-
 
 @view_config(route_name='detail', renderer='../templates/detail.jinja2')
 def detail(request):
     """Send individual entry for detail view."""
-    data = grab_entry_by_id(request.matchdict['id'])
-    print(data)     # debugging
-    if data != 404:
-        return {"entry": data}
-    # handle error somehow here
+    query = request.dbsession.query(MyModel)
+    data = query.filter_by(id=request.matchdict['id']).one()
+    return {"entry": data}
 
 
 @view_config(route_name='edit', renderer='../templates/edit.jinja2')
 def edit(request):
     """Send individual entry to be edited."""
-    data = grab_entry_by_id(request.matchdict['id'])
-    print(data)     # debugging
-    if data != 404:
-        return {"entry": data}
+    query = request.dbsession.query(MyModel)
+    data = query.filter_by(id=request.matchdict['id']).one()
+    updated = False
+    if request.method == 'POST':
+        updated = True
+        print(data)
+        data.body = request.POST['body']
+    return {'entry': data, 'updated': updated}
 
 
 @view_config(route_name='new', renderer='../templates/new.jinja2')
@@ -84,16 +66,15 @@ def new(request):
     """Return empty dict for new entry."""
     return {}
 
-#step 3 stuff
-#@view_config(route_name='home', renderer='../templates/mytemplate.jinja2')
-#def my_view(request):
-#    print(request)  # debug
-#    try:
-#        query = request.dbsession.query(MyModel)
-#        one = query.filter(MyModel.name == 'one').first()
-#    except DBAPIError:
-#        return Response(db_err_msg, content_type='text/plain', status=500)
-#    return {'one': one, 'project': 'website'}
+
+@view_config(route_name='home', renderer='../templates/index.jinja2')
+def my_view(request):
+    try:
+        query = request.dbsession.query(MyModel)
+        data_from_DB = query.all()
+    except DBAPIError:
+        return Response(db_err_msg, content_type='text/plain', status=500)
+    return {'entries': data_from_DB}
 
 
 db_err_msg = """\
