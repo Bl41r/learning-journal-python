@@ -40,6 +40,7 @@ ENTRIES_DATA = [
 
 
 def grab_entry_by_id(id):
+    """Grab entry based on id."""
     for entry in ENTRIES_DATA:
         if entry['id'] == id:
             return entry
@@ -48,11 +49,13 @@ def grab_entry_by_id(id):
 
 @view_config(route_name='home', renderer='templates/index.jinja2')
 def home_page(request):
+    """Return all entries for the home route."""
     return {"entries": ENTRIES_DATA}
 
 
 @view_config(route_name='detail', renderer='templates/detail.jinja2')
 def detail(request):
+    """Send individual entry for detail view."""
     data = grab_entry_by_id(request.matchdict['id'])
     print(data)     # debugging
     if data != 404:
@@ -62,6 +65,7 @@ def detail(request):
 
 @view_config(route_name='edit', renderer='templates/edit.jinja2')
 def edit(request):
+    """Send individual entry to be edited."""
     data = grab_entry_by_id(request.matchdict['id'])
     print(data)     # debugging
     if data != 404:
@@ -70,4 +74,5 @@ def edit(request):
 
 @view_config(route_name='new', renderer='templates/new.jinja2')
 def new(request):
+    """Return empty dict for new entry."""
     return {}
