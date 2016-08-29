@@ -1,23 +1,32 @@
+# tests.py
 import pytest
+
 from pyramid import testing
 
 
-def test_detail_view_has_title():
-    from .views import test_detail_view_has_title
-
+def test_detail_view():
+    from .views.default import detail
     request = testing.DummyRequest()
+    request.matchdict = {'id': '12'}
     info = detail(request)
-    assert "title" in info.keys()
+    assert "entry" in info
+
+# ------- Functional Tests -------
 
 
 @pytest.fixture()
 def testapp():
     from website import main
     app = main({})
-    from webtest import testapp
+    from webtest import TestApp
     return TestApp(app)
 
 
-def test_layout_route(testapp):
+def test_layout_root(testapp):
     response = testapp.get('/', status=200)
-    assert b'Footer Line Here' in response.body
+    assert b'Entries' in response.body
+
+
+def test_root_contents(testapp):
+    response = testapp.get('/', status=200)
+    assert b'<td>' in response.body
