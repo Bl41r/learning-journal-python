@@ -87,8 +87,3 @@ ENV/
 
 # Rope project settings
 .ropeproject
-
-*.pyc
-*.DS_Store
-
-website.egg-info/

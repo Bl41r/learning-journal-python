@@ -10,23 +10,25 @@ with open(os.path.join(here, 'CHANGES.txt')) as f:
 
 requires = [
     'pyramid',
-    'ipython',
-    'pyramid_ipython',
     'pyramid_jinja2',
     'pyramid_debugtoolbar',
+    'pyramid_tm',
+    'SQLAlchemy',
+    'transaction',
+    'zope.sqlalchemy',
     'waitress',
-    ]
+]
 
 tests_require = [
     'WebTest >= 1.3.1',  # py3 compat
     'pytest',  # includes virtualenv
     'pytest-cov',
     'tox',
-    ]
+]
 
 setup(name='website',
       version='0.0',
-      description='Learning journal for python 401',
+      description='website',
       long_description=README + '\n\n' + CHANGES,
       classifiers=[
           "Programming Language :: Python",
@@ -34,10 +36,10 @@ setup(name='website',
           "Topic :: Internet :: WWW/HTTP",
           "Topic :: Internet :: WWW/HTTP :: WSGI :: Application",
       ],
-      author='David Smith',
-      author_email='dbsmith.dbs83@gmail.com',
+      author='',
+      author_email='',
       url='',
-      keywords='web pyramid pylons',
+      keywords='web wsgi bfg pylons pyramid',
       packages=find_packages(),
       include_package_data=True,
       zip_safe=False,
@@ -48,5 +50,7 @@ setup(name='website',
       entry_points="""\
       [paste.app_factory]
       main = website:main
+      [console_scripts]
+      initialize_db = website.scripts.initializedb:main
       """,
       )
