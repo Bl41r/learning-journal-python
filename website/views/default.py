@@ -68,13 +68,15 @@ def edit(request):
 def new(request):
     """Return empty dict for new entry."""
     goofed = {'goofed': 0}
+    if request.method == 'GET':
+        return {'entry': goofed}
     if request.method == 'POST':
         new_model = MyModel(title=request.POST['title'], body=request.POST['body'], creation_date=request.POST['creation_date'])
         if new_model.title == '' or new_model.body == '':
             goofed['goofed'] = 1
             return {'entry': goofed}   # http exception here
         request.dbsession.add(new_model)
-    return {'entry': goofed}
+        return HTTPFound(request.route_url('home'))
 
 
 @view_config(route_name='home', renderer='../templates/index.jinja2')
