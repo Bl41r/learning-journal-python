@@ -43,75 +43,87 @@ def new_session(sqlengine, request):
     request.addfinalizer(teardown)
     return session
 
+
 def test_model_gets_added(new_session):
+    """Test that a new model gets added."""
     assert len(new_session.query(MyModel).all()) == 0
-    model = MyModel(title="TestDay", body='blah..', creation_date='A long time ago..')
+    model = MyModel(title="TestDay", body='blah..', creation_date='A long time ago in a galaxy far, far away....')
     new_session.add(model)
     new_session.flush()
     assert len(new_session.query(MyModel).all()) == 1
 
-#def test_detail():
-#    from .views.default import detail
-#    request = testing.DummyRequest()
-#    request.matchdict = {'id': '1'}
-#    info = detail(request)
-#    assert "entry" in info
+
+def dummy_http_request(new_session, method='GET'):
+    """Create the testing request and attach dbsession."""
+    request = testing.DummyRequest()
+    request.method = method
+    request.dbsession = new_session
+    return request
 
 
-#def test_new():
-#    from .views.default import new
-#    request = testing.DummyRequest()
-#    info = new(request)
-#    assert 'entry' in info
+def test_my_view(new_session):
+    """Test main home page that entries is retrieved."""
+    from .views.default import my_view
+
+    new_session.add(MyModel(title="test", body='blah..', creation_date='1066 AD'))
+    new_session.flush()
+
+    http_request = dummy_http_request(new_session)
+    result = my_view(http_request)
+    assert 'entries' in result
 
 
-#def test_edit():
-#    from .views.default import edit
-#    request = testing.DummyRequest()
-#    request.matchdict = {'id': '1'}
-#    info = edit(request)
-#    #assert info['entry']['title'] == 'Day12'
-#    print(info)
-#    assert 1 == 2
+def test_new_get(new_session):
+    """Test new entry get req."""
+    from .views.default import new
+
+    new_session.add(MyModel(title="test", body='blah..', creation_date='1066 AD'))
+    new_session.flush()
+
+    http_request = dummy_http_request(new_session)
+    result = new(http_request)
+    assert result['entry']['goofed'] == 0
 
 
-#def test_home_page():
-#    from .views.default import my_view
-#    request = testing.DummyRequest()
-#    info = my_view(request)
-#    assert 'entries' in info
+def test_new_submit_fail(new_session):
+    """Test new entry fails when data incomplete."""
+    from .views.default import new
 
-## ------- Functional Tests -------1
+    new_session.add(MyModel(title='', body='this should fail', creation_date=''))
+    new_session.flush()
 
-
-#@pytest.fixture()
-#def testapp():
-#    from website import main
-#    app = main({})
-#    from webtest import TestApp
-#    return TestApp(app)
+    http_request = dummy_http_request(new_session, 'POST')
+    http_request.POST['title'] = ''
+    http_request.POST['body'] = 'this should fail'
+    http_request.POST['creation_date'] = ''
+    result = new(http_request)
+    assert result['entry']['goofed'] == 1
 
 
-#def test_layout_root(testapp):
-#    response = testapp.get('/', status=200)
-#    assert b'Entries' in response.body
+def test_detail(new_session):
+    """Test the correct entry is retrieved in detail view."""
+    from .views.default import detail
+
+    new_session.add(MyModel(title="test", body='blah..', creation_date='1066 AD'))
+    new_session.flush()
+
+    http_request = dummy_http_request(new_session)
+    http_request.matchdict['id'] = 1
+    result = detail(http_request)
+    assert getattr(result['entry'], 'title') == 'test'
 
 
-#def test_root_contents(testapp):
-#    response = testapp.get('/', status=200)
-#    assert b'<table id="entries_table">' in response.body
+def test_edit(new_session):
+    """Test the editing page."""
+    from .views.default import edit
 
+    new_session.add(MyModel(title="test", body='blah..', creation_date='1066 AD'))
+    new_session.flush()
 
-#def test_new_layout(testapp):
-#    response = testapp.get('/journal/new-entry', status=200)
-#    assert b'Make a New Entry' in response.body
-
-
-#def test_detail_page(testapp):
-#    response = testapp.get('/journal/12', status=200)
-#    assert b'<h3>Day12 - August 23, 2016</h3>' in response.body
-
-
-#def test_edit_page(testapp):
-#    response = testapp.get('/journal/12/edit-entry')
-#    assert b'<h1>Edit an Existing Entry</h1>' in response.body
+    http_request = dummy_http_request(new_session, 'POST')
+    http_request.matchdict['id'] = 1
+    http_request.POST['title'] = 'new title'
+    http_request.POST['body'] = 'blah 2.0'
+    http_request.POST['creation_date'] = '1066 AD'
+    result = edit(http_request)
+    assert result['updated'] == True
