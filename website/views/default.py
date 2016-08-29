@@ -10,33 +10,27 @@ HERE = os.path.dirname(__file__)
 ENTRIES_DATA = [
     {
         'title': 'Day12',
-        'id': '12',
         'creation_date': 'August 23, 2016',
-        'body': '<p>Today, we learned about templating with Jinja, and about the binary tree data type.  I spent most of the time revising old data structures, since it is not a good idea to coninue building upon something that is not perfect.  I also got my journal site deployed with the templates working.  Lastly, we formed project groups, and I will be working on my idea for a market analysis web application.</p>'
+        'body': 'Today, we learned about templating with Jinja, and about the binary tree data type.  I spent most of the time revising old data structures, since it is not a good idea to coninue building upon something that is not perfect.  I also got my journal site deployed with the templates working.  Lastly, we formed project groups, and I will be working on my idea for a market analysis web application.'},
+    {
+        'title': 'Day14',
+        'creation_date': 'August 25, 2016',
+        'body': "Today, we learned about using postgres for our databases. I'm still a bit confused over the sheer amount of information of the past few days. We also learned about graphs and started implementing one today."
     },
     {
-        'title': 'Day11',
-        'id': '11',
-        'creation_date': 'August 22, 2016',
-        'body': '<p>Today, we code reviewed our server-from-scratch code.  We then learned about Pyramid and worked on this very site.  We also built the deque data structure, and worked on more testing and revising for previous structures.</p>'
-    },
-    {
-        'title': 'Day10',
-        'id': '10',
-        'creation_date': 'August 21, 2016',
-        'body': '<p>asdf</p>'
+        'title': 'Day13',
+        'creation_date': 'August 24, 2016',
+        'body': 'Blah Blah Blah Python is hard... also, we learned about using SQLAlchemy, the priority queue. I also gave my lightning talk on the Collatz conjecture.'
     },
     {
         'title': 'Day9',
-        'id': '9',
         'creation_date': 'August 20, 2016',
-        'body': '<p>asdf</p>'
+        'body': "Today, we learned about properties in python, which seem very useful for classes which have related attributes that must be changed when another one is updated, as well as for when you want to make some attributes be read-only. We also got some helpful pointers on my code review, which was not pretty :). We built a Queue data structure, and worked on our http server."
     },
     {
-        'title': 'Day8',
-        'id': '8',
-        'creation_date': 'August 19, 2016',
-        'body': '<p>asdf</p>'
+        'title': 'Day10',
+        'creation_date': 'August 18, 2016',
+        'body': "Today, I we began with a gist assignment involving substrings of a maximum length. I believe that I did relatively well on it. We then had a whiteboard challenge to create al algorithm to create a function to determine if a given node has an upstream node which causes a loop in the entire list of nodes. Afterwards, we worked on our weekly data structure and http server assignments."
     },
 ]
 

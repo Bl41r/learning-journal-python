@@ -7,7 +7,6 @@ pytest.ini
 requirements.txt
 setup.py
 tox.ini
-tox.txt
 website/__init__.py
 website/routes.py
 website/tests.py
