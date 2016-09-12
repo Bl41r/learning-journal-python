@@ -18,6 +18,7 @@ from ..models import (
     get_tm_session,
     )
 from ..models import MyModel
+from sqlalchemy.exc import DBAPIError
 
 
 def usage(argv):
@@ -73,6 +74,10 @@ def main(argv=sys.argv):
         for retrieved_entry in info:
             query = dbsession.query(MyModel).filter(MyModel.title == retrieved_entry['title']).first()
             if len(query) == 0:
-                row = MyModel(title=retrieved_entry['title'], body=retrieved_entry['body'], creation_date=retrieved_entry['creation_date'])
-                dbsession.add(row)
+                try:
+                    row = MyModel(title=retrieved_entry['title'], body=retrieved_entry['body'], creation_date=retrieved_entry['creation_date'])
+                    dbsession.add(row)
+                except DBAPIError:
+                    print('There was an error.')
+                    break
         print('retrieved data added.')
