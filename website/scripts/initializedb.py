@@ -17,6 +17,7 @@ from ..models import (
     get_tm_session,
     )
 from ..models import MyModel
+from sqlalchemy.exc import DBAPIError
 
 
 def usage(argv):
@@ -42,5 +43,7 @@ def main(argv=sys.argv):
     #with transaction.manager:
     #    dbsession = get_tm_session(session_factory, transaction.manager)
     #    for entry in ENTRIES_DATA:
-    #        row = MyModel(title=entry['title'], body=entry['body'], creation_date=entry['creation_date'])
-    #        dbsession.add(row)
+    #        query = dbsession.query(MyModel).filter(MyModel.title == entry['title']).first()
+    #        if len(query) == 0:
+    #            row = MyModel(title=entry['title'], body=entry['body'], creation_date=entry['creation_date'])
+    #            dbsession.add(row)
