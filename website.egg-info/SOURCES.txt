@@ -8,7 +8,9 @@ requirements.txt
 setup.py
 tox.ini
 website/__init__.py
+website/conftest.py
 website/routes.py
+website/security.py
 website/tests.py
 website.egg-info/PKG-INFO
 website.egg-info/SOURCES.txt
