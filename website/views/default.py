@@ -4,6 +4,9 @@ from sqlalchemy.exc import DBAPIError
 from ..models import MyModel
 import os
 from pyramid.httpexceptions import HTTPFound
+from pyramid.security import remember, forget
+from ..security import verify_user
+
 
 HERE = os.path.dirname(__file__)
 
@@ -35,6 +38,26 @@ ENTRIES_DATA = [
 ]
 
 
+@view_config(route_name='login', renderer='../templates/login.jinja2')
+def login(request):
+    if request.method == 'POST':
+        username = str(request.params.get('user', ''))
+        password = str(request.params.get('pass', ''))
+        print('user/pass:', username, password)
+
+        if verify_user(username, password):
+            print('User verfied.')
+            headers = remember(request, username)
+            return HTTPFound(location=request.route_url('home'), headers=headers)
+    return {}
+
+
+@view_config(route_name='logout', renderer='../templates/logout.jinja2')
+def logout(request):
+    headers = forget(request)
+    return HTTPFound(request.route_url('home'), headers=headers)
+
+
 @view_config(route_name='detail', renderer='../templates/detail.jinja2')
 def detail(request):
     """Send individual entry for detail view."""
@@ -43,7 +66,7 @@ def detail(request):
     return {"entry": data}
 
 
-@view_config(route_name='edit', renderer='../templates/edit.jinja2')
+@view_config(route_name='edit', renderer='../templates/edit.jinja2', permission='root')
 def edit(request):
     """Send individual entry to be edited."""
     query = request.dbsession.query(MyModel)
@@ -58,7 +81,7 @@ def edit(request):
     return {'entry': data2, 'updated': updated}
 
 
-@view_config(route_name='new', renderer='../templates/new.jinja2')
+@view_config(route_name='new', renderer='../templates/new.jinja2', permission='root')
 def new(request):
     """Return empty dict for new entry."""
     goofed = {'goofed': 0}
