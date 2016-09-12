@@ -1,4 +1,3 @@
-import requests
 import os
 import sys
 import transaction
@@ -26,25 +25,6 @@ def usage(argv):
     print('usage: %s <config_uri> [var=value]\n'
           '(example: "%s development.ini")' % (cmd, cmd))
     sys.exit(1)
-
-
-def format_date(date):
-    """Truncate date format."""
-    return date[0:10]
-
-
-def process_json(info):
-    ret_list = []
-    title_list = []
-    for entry in info:
-        e = {}
-        e['title'] = entry['title']
-        e['creation_date'] = format_date(entry['created'])
-        e['body'] = entry['text']
-        if e['title'] not in title_list:
-            ret_list.append(e)
-            title_list.append(e['title'])
-    return ret_list
 
 
 def main(argv=sys.argv):

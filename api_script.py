@@ -2,7 +2,6 @@ import requests
 import os
 import sys
 import transaction
-from ..views.default import ENTRIES_DATA
 
 from pyramid.paster import (
     get_appsettings,
@@ -11,13 +10,13 @@ from pyramid.paster import (
 
 from pyramid.scripts.common import parse_vars
 
-from ..models.meta import Base
-from ..models import (
+from website.models.meta import Base
+from website.models import (
     get_engine,
     get_session_factory,
     get_tm_session,
     )
-from ..models import MyModel
+from website.models import MyModel
 from sqlalchemy.exc import DBAPIError
 
 
@@ -55,11 +54,11 @@ def import_entries(argv=sys.argv):
 
     with transaction.manager:
         dbsession = get_tm_session(session_factory, transaction.manager)
-        for entry in ENTRIES_DATA:
-            query = dbsession.query(MyModel).filter(MyModel.title == entry['title']).first()
-            if len(query) == 0:
-                row = MyModel(title=entry['title'], body=entry['body'], creation_date=entry['creation_date'])
-                dbsession.add(row)
+        #for entry in ENTRIES_DATA:
+        #    query = dbsession.query(MyModel).filter(MyModel.title == entry['title']).first()
+        #    if len(query) == 0:
+        #        row = MyModel(title=entry['title'], body=entry['body'], creation_date=entry['creation_date'])
+        #        dbsession.add(row)
 
     try:
         resp = requests.get('https://sea401d4.crisewing.com/api/export?apikey=e31e0594-5513-4a37-8dd1-f8e49b68bfdb')
