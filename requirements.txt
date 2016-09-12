@@ -24,6 +24,7 @@ pyramid-debugtoolbar==3.0.4
 pyramid-ipython==0.2
 pyramid-jinja2==2.6.2
 pyramid-mako==1.0.2
+pyramid-tm==0.12.1
 pytest==3.0.0
 pytest-cov==2.3.1
 repoze.lru==0.6
