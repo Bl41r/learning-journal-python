@@ -1,3 +1,4 @@
+import requests
 import os
 import sys
 import transaction
@@ -26,6 +27,25 @@ def usage(argv):
     sys.exit(1)
 
 
+def format_date(date):
+    """Truncate date format."""
+    return date[0:10]
+
+
+def process_json(info):
+    ret_list = []
+    title_list = []
+    for entry in info:
+        e = {}
+        e['title'] = entry['title']
+        e['creation_date'] = format_date(entry['created'])
+        e['body'] = entry['text']
+        if e['title'] not in title_list:
+            ret_list.append(e)
+            title_list.append(e['title'])
+    return ret_list
+
+
 def main(argv=sys.argv):
     if len(argv) < 2:
         usage(argv)
@@ -37,10 +57,22 @@ def main(argv=sys.argv):
     engine = get_engine(settings)
     Base.metadata.create_all(engine)
 
-    #session_factory = get_session_factory(engine)
+    session_factory = get_session_factory(engine)
 
-    #with transaction.manager:
-    #    dbsession = get_tm_session(session_factory, transaction.manager)
-    #    for entry in ENTRIES_DATA:
-    #        row = MyModel(title=entry['title'], body=entry['body'], creation_date=entry['creation_date'])
-    #        dbsession.add(row)
+    with transaction.manager:
+        dbsession = get_tm_session(session_factory, transaction.manager)
+        for entry in ENTRIES_DATA:
+            row = MyModel(title=entry['title'], body=entry['body'], creation_date=entry['creation_date'])
+            dbsession.add(row)
+
+        resp = requests.get('https://sea401d4.crisewing.com/api/export?apikey=e31e0594-5513-4a37-8dd1-f8e49b68bfdb')
+        info = resp.json()
+        info = process_json(info)
+        print(info)
+
+        for retrieved_entry in info:
+            query = dbsession.query(MyModel).filter(MyModel.title == retrieved_entry['title']).first()
+            if len(query) == 0:
+                row = MyModel(title=retrieved_entry['title'], body=retrieved_entry['body'], creation_date=retrieved_entry['creation_date'])
+                dbsession.add(row)
+        print('retrieved data added.')
