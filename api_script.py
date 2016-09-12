@@ -60,22 +60,22 @@ def import_entries(argv=sys.argv):
         #        row = MyModel(title=entry['title'], body=entry['body'], creation_date=entry['creation_date'])
         #        dbsession.add(row)
 
-    try:
-        resp = requests.get('https://sea401d4.crisewing.com/api/export?apikey=e31e0594-5513-4a37-8dd1-f8e49b68bfdb')
-        info = resp.json()
-        info = process_json(info)
-        print(info)
-    except:
-        print('There was an error requesting the data.')
-        sys.exit(1)
+        try:
+            resp = requests.get('https://sea401d4.crisewing.com/api/export?apikey=e31e0594-5513-4a37-8dd1-f8e49b68bfdb')
+            info = resp.json()
+            info = process_json(info)
+            print(info)
+        except:
+            print('There was an error requesting the data.')
+            sys.exit(1)
 
-    for retrieved_entry in info:
-        query = dbsession.query(MyModel).filter(MyModel.title == retrieved_entry['title']).first()
-        if len(query) == 0:
-            try:
-                row = MyModel(title=retrieved_entry['title'], body=retrieved_entry['body'], creation_date=retrieved_entry['creation_date'])
-                dbsession.add(row)
-            except DBAPIError:
-                print('There was an error.')
-                break
-    print('retrieved data added.')
+        for retrieved_entry in info:
+            query = dbsession.query(MyModel).filter(MyModel.title == retrieved_entry['title']).first()
+            if len(query) == 0:
+                try:
+                    row = MyModel(title=retrieved_entry['title'], body=retrieved_entry['body'], creation_date=retrieved_entry['creation_date'])
+                    dbsession.add(row)
+                except DBAPIError:
+                    print('There was an error.')
+                    break
+        print('retrieved data added.')
