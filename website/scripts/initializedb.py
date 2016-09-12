@@ -58,26 +58,12 @@ def main(argv=sys.argv):
     engine = get_engine(settings)
     Base.metadata.create_all(engine)
 
-    session_factory = get_session_factory(engine)
+    #session_factory = get_session_factory(engine)
 
-    with transaction.manager:
-        dbsession = get_tm_session(session_factory, transaction.manager)
-        for entry in ENTRIES_DATA:
-            row = MyModel(title=entry['title'], body=entry['body'], creation_date=entry['creation_date'])
-            dbsession.add(row)
-
-        resp = requests.get('https://sea401d4.crisewing.com/api/export?apikey=e31e0594-5513-4a37-8dd1-f8e49b68bfdb')
-        info = resp.json()
-        info = process_json(info)
-        print(info)
-
-        for retrieved_entry in info:
-            query = dbsession.query(MyModel).filter(MyModel.title == retrieved_entry['title']).first()
-            if len(query) == 0:
-                try:
-                    row = MyModel(title=retrieved_entry['title'], body=retrieved_entry['body'], creation_date=retrieved_entry['creation_date'])
-                    dbsession.add(row)
-                except DBAPIError:
-                    print('There was an error.')
-                    break
-        print('retrieved data added.')
+    #with transaction.manager:
+    #    dbsession = get_tm_session(session_factory, transaction.manager)
+    #    for entry in ENTRIES_DATA:
+    #        query = dbsession.query(MyModel).filter(MyModel.title == entry['title']).first()
+    #        if len(query) == 0:
+    #            row = MyModel(title=entry['title'], body=entry['body'], creation_date=entry['creation_date'])
+    #            dbsession.add(row)
