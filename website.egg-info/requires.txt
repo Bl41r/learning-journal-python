@@ -9,6 +9,7 @@ waitress
 psycopg2
 passlib
 paste
+requests
 
 [testing]
 WebTest >= 1.3.1
