@@ -1,52 +1,17 @@
 import pytest
-import transaction
-
+import os
 from pyramid import testing
-
-from .models import (
-    get_engine,
-    get_session_factory,
-    get_tm_session,
-)
-
-from .models.meta import Base
-
 from .models.mymodel import MyModel
 
 
-@pytest.fixture(scope="session")
-def sqlengine(request):
-    config = testing.setUp(settings={
-        'sqlalchemy.url': 'sqlite:///:memory:'
-    })
-    config.include(".models")
-    settings = config.get_settings()
-    engine = get_engine(settings)
-    Base.metadata.create_all(engine)
-
-    def teardown():
-        testing.tearDown()
-        transaction.abort()
-        Base.metadata.drop_all(engine)
-
-    request.addfinalizer(teardown)
-    return engine
-
-
-@pytest.fixture(scope="function")
-def new_session(sqlengine, request):
-    session_factory = get_session_factory(sqlengine)
-    session = get_tm_session(session_factory, transaction.manager)
-
-    def teardown():
-        transaction.abort()
-
-    request.addfinalizer(teardown)
-    return session
+def test_unauth_view(test_app, populated_db):
+    response = test_app.get('/')
+    assert response.status_code == 200
 
 
 def test_model_gets_added(new_session):
     """Test that a new model gets added."""
+
     assert len(new_session.query(MyModel).all()) == 0
     model = MyModel(title="TestDay", body='blah..', creation_date='A long time ago in a galaxy far, far away....')
     new_session.add(model)
@@ -65,7 +30,6 @@ def dummy_http_request(new_session, method='GET'):
 def test_my_view(new_session):
     """Test main home page that entries is retrieved."""
     from .views.default import my_view
-
     new_session.add(MyModel(title="test", body='blah..', creation_date='1066 AD'))
     new_session.flush()
 
@@ -110,6 +74,7 @@ def test_detail(new_session):
 
     http_request = dummy_http_request(new_session)
     http_request.matchdict['id'] = 1
+
     result = detail(http_request)
     assert getattr(result['entry'], 'title') == 'test'
 
@@ -127,4 +92,4 @@ def test_edit(new_session):
     http_request.POST['body'] = 'blah 2.0'
     http_request.POST['creation_date'] = '1066 AD'
     result = edit(http_request)
-    assert result['updated'] == True
+    assert result['updated'] is True

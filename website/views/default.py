@@ -64,7 +64,7 @@ def logout(request):
 def detail(request):
     """Send individual entry for detail view."""
     query = request.dbsession.query(MyModel)
-    data = query.filter_by(id=request.matchdict['id']).one()
+    data = query.filter_by(id=request.matchdict['id']).first()
     return {"entry": data}
 
 
