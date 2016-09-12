@@ -39,7 +39,7 @@ def process_json(info):
     return ret_list
 
 
-def import_entries(argv=sys.argv):
+def main(argv=sys.argv):
     if len(argv) < 2:
         usage(argv)
     config_uri = argv[1]
@@ -79,3 +79,6 @@ def import_entries(argv=sys.argv):
                     print('There was an error.')
                     break
         print('retrieved data added.')
+
+if __name__ == "__main__":
+    main()
