@@ -10,6 +10,11 @@
     <input type="submit" value="Submit">
 </form>
 
+{% if bogus_attempt %}
+<script>
+    alert('Try again.');
+</script>
+{% endif %}
 <a href="../">Back to Home</a>
 
 {% endblock %}

@@ -40,6 +40,8 @@ ENTRIES_DATA = [
 
 @view_config(route_name='login', renderer='../templates/login.jinja2')
 def login(request):
+    if request.method == 'GET':
+        return {'bogus_attempt': False}
     if request.method == 'POST':
         username = str(request.params.get('user', ''))
         password = str(request.params.get('pass', ''))
@@ -49,7 +51,7 @@ def login(request):
             print('User verfied.')
             headers = remember(request, username)
             return HTTPFound(location=request.route_url('home'), headers=headers)
-    return {}
+    return {'bogus_attempt': True}
 
 
 @view_config(route_name='logout', renderer='../templates/logout.jinja2')
