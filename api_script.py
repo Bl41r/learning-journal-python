@@ -71,7 +71,7 @@ def main(argv=sys.argv):
 
         for retrieved_entry in info:
             query = dbsession.query(MyModel).filter(MyModel.title == retrieved_entry['title']).first()
-            if len(query) == 0:
+            if query is None:
                 try:
                     row = MyModel(title=retrieved_entry['title'], body=retrieved_entry['body'], creation_date=retrieved_entry['creation_date'])
                     dbsession.add(row)
