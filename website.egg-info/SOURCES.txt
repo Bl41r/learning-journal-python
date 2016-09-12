@@ -31,6 +31,8 @@ website/templates/detail.jinja2
 website/templates/edit.jinja2
 website/templates/index.jinja2
 website/templates/layout.jinja2
+website/templates/login.jinja2
+website/templates/logout.jinja2
 website/templates/my_template.jinja2
 website/templates/mytemplate.jinja2
 website/templates/new.jinja2

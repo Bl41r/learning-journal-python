@@ -6,9 +6,11 @@ import os
 def main(global_config, **settings):
     """Return a Pyramid WSGI application."""
     settings["sqlalchemy.url"] = os.environ["DATABASE_URL"]
+
     config = Configurator(settings=settings)
     config.include('pyramid_jinja2')
     config.add_static_view('static', 'website:static', cache_max_age=3600)
+    config.include('.security') 
     config.include('.routes')
     config.include('.models')
     config.scan()
