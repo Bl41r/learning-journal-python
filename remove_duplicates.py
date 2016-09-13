@@ -54,7 +54,7 @@ def main(argv=sys.argv):
         entries = []
         for row in query:
             if row.title in entries:
-                row.delete()
+                dbsession.delete(row)
             else:
                 entries.append(row.title)
 
