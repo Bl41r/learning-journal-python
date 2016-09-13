@@ -49,7 +49,7 @@ def main(argv=sys.argv):
     with transaction.manager:
         dbsession = get_tm_session(session_factory, transaction.manager)
         # fix bogus entry
-        query = dbsession.query(MyModel).filter(MyModel.title == '  You\'ve been H4x0r3d again!')
+        query = dbsession.query(MyModel).filter(MyModel.title == 'You\'ve been H4x0r3d again!')
         if query is not None:
             try:
                 query.delete()
@@ -59,7 +59,12 @@ def main(argv=sys.argv):
 
         # fix dates
         query = dbsession.query(MyModel).all()
+        entries = []
         for row in query:
+            if row in entries:
+                break
+
+            entries.append(row)
             try:
                 curr_date = row.creation_date
                 if len(curr_date) > 0:
