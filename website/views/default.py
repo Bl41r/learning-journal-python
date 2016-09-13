@@ -61,6 +61,7 @@ def edit(request):
     if request.method == 'POST':
         updated = True
         data2['body'] = request.POST['body']
+        data2['title'] = request.POST['title']
     return {'entry': data2, 'updated': updated}
 
 
