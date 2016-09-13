@@ -53,10 +53,10 @@ def main(argv=sys.argv):
         query = dbsession.query(MyModel).all()
         entries = []
         for row in query:
-            if row.creation_date in entries:
+            if row.title in entries:
                 row.delete()
             else:
-                entries.append(row.creation_date)
+                entries.append(row.title)
 
 
 if __name__ == "__main__":
