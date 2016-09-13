@@ -62,7 +62,8 @@ def main(argv=sys.argv):
         for row in query:
             try:
                 curr_date = row.creation_date
-                row.creation_date = fix_date(curr_date)
+                if len(curr_date) > 0:
+                    row.creation_date = fix_date(curr_date)
             except DBAPIError:
                 print('Error fixing dates.')
 
