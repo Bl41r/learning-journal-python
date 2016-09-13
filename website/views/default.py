@@ -91,7 +91,7 @@ def new(request):
 def my_view(request):
     try:
         query = request.dbsession.query(MyModel)
-        data_from_DB = query.all()
+        data_from_DB = query.order_by(MyModel.title).all()
     except DBAPIError:
         return Response(db_err_msg, content_type='text/plain', status=500)
     return {'entries': data_from_DB}
