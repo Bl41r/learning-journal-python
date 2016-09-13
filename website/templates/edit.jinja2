@@ -3,6 +3,7 @@
 <h1>Edit an Existing Entry</h1>
 <form action="{{ request.route_url('edit', id=entry.id) }}" method="POST">
     Title:<br>
+    <input type="text" name="creation_date" value="{{ entry.creation_date }}">
     <input type="text" name="title" value="{{ entry.title }}"><br>
     <textarea name="body" rows="14" cols="50">{{ entry.body }}</textarea>
     <input type="submit" value="Submit">

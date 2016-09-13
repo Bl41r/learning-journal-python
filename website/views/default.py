@@ -60,8 +60,15 @@ def edit(request):
     #   to like data.body = req.... to change database (autocommit is on)
     if request.method == 'POST':
         updated = True
+        data2['creation_date'] = request.POST['creation_date']
         data2['body'] = request.POST['body']
         data2['title'] = request.POST['title']
+
+        #updating # comment out for testing
+        data.body = data2['body']
+        data.title = data2['title']
+        data.creation_date = data2['creation_date']
+
     return {'entry': data2, 'updated': updated}
 
 
