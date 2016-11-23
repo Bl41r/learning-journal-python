@@ -54,11 +54,6 @@ def main(argv=sys.argv):
 
     with transaction.manager:
         dbsession = get_tm_session(session_factory, transaction.manager)
-        #for entry in ENTRIES_DATA:
-        #    query = dbsession.query(MyModel).filter(MyModel.title == entry['title']).first()
-        #    if len(query) == 0:
-        #        row = MyModel(title=entry['title'], body=entry['body'], creation_date=entry['creation_date'])
-        #        dbsession.add(row)
 
         try:
             resp = requests.get('https://sea401d4.crisewing.com/api/export?apikey=e31e0594-5513-4a37-8dd1-f8e49b68bfdb')
